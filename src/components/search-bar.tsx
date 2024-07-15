@@ -73,7 +73,7 @@ const SearchBarComponent: React.FC<SearchBarComponentProps> = ({
   return (
     <>
       <div className="row mb-3 pt-3">
-        <div className="col position-relative">
+        <div className="col-12 mb-2 col-md mb-md-0 position-relative">
           <Form.Control
             type="text"
             id="search-bar"
