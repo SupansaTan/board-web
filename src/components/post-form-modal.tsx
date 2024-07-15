@@ -58,7 +58,6 @@ const PostFormModal: React.FC<PostFormModalProps> = ({
     }
 
     setPostForm(updatedPost);
-    console.log(postForm);
   };
 
   const ConfirmModifyForm = async () => {
@@ -74,7 +73,10 @@ const PostFormModal: React.FC<PostFormModalProps> = ({
           "Content-Type": "application/json",
           Authorization: `${accessToken}`,
         },
-        body: JSON.stringify(postForm),
+        body: JSON.stringify({
+          ...postForm,
+          community: postForm.community.toString(),
+        }),
       }
     );
 
