@@ -16,3 +16,22 @@ body {
   height: 100%;
   overflow-x: hidden;
 }
+
+.logo-container {
+  height: auto;
+
+  @media (max-width: 991px) {
+    img {
+      width: 200px;
+      height: auto;
+    }
+
+    border-bottom-left-radius: 48px;
+    border-bottom-right-radius: 48px;
+  }
+
+  @media (min-width: 992px) {
+    border-top-left-radius: 32px;
+    border-bottom-left-radius: 32px;
+  }
+}

@@ -32,7 +32,9 @@ export default function App({ Component, pageProps }: AppProps) {
       ) : (
         <RootStateProvider>
           <LoadingProvider>
-            <Component {...pageProps} />
+            <div className="h-100">
+              <Component {...pageProps} />
+            </div>
             <ToastComponent />
           </LoadingProvider>
         </RootStateProvider>
