@@ -33,6 +33,7 @@ const CommentFormModal: React.FC<Props> = ({ show, postId, handleClose }) => {
     let toastInfo: ToastState;
     const result = await response.json();
     if (result.statusCode === 200) {
+      dispatch({ type: "post/setNeedToFetch", isNeedToFetch: true });
       toastInfo = {
         showToast: true,
         variant: "success",

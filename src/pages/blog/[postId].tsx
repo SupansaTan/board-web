@@ -23,7 +23,7 @@ export default function BlogDetailPage() {
   const [isShowCommentInput, setShowCommentInput] = useState<boolean>(false);
 
   const { setLoading } = useLoading();
-  const { dispatch } = useRootState();
+  const { state, dispatch } = useRootState();
 
   const fetchPostInfo = async (postId: string) => {
     setLoading(true);
@@ -70,6 +70,7 @@ export default function BlogDetailPage() {
     let toastInfo: ToastState;
     const result = await response.json();
     if (result.statusCode === 200) {
+      dispatch({ type: "post/setNeedToFetch", isNeedToFetch: true });
       setShowCommentInput(false);
       toastInfo = {
         showToast: true,
@@ -92,6 +93,12 @@ export default function BlogDetailPage() {
       fetchPostInfo(postId);
     }
   }, [postId]);
+
+  useEffect(() => {
+    if (postId) {
+      fetchPostInfo(postId);
+    }
+  }, [state.post.isNeedToFetch]);
 
   const AddCommentButton: React.FC = () => {
     const handleShowComponentSection = () => {
