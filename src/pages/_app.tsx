@@ -1,13 +1,15 @@
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { SSRProvider } from "react-bootstrap";
-import MainLayout from "@/components/main-layout";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "../styles/styles.scss";
+import MainLayout from "@/components/main-layout";
+import ToastComponent from "@/components/toast";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
+import { RootStateProvider } from "@/utils/context/RootStateContext";
 config.autoAddCss = false;
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -18,11 +20,17 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <SSRProvider>
       {isLayoutNeeded ? (
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout>
+        <RootStateProvider>
+          <MainLayout>
+            <Component {...pageProps} />
+            <ToastComponent />
+          </MainLayout>
+        </RootStateProvider>
       ) : (
-        <Component {...pageProps} />
+        <RootStateProvider>
+          <Component {...pageProps} />
+          <ToastComponent />
+        </RootStateProvider>
       )}
     </SSRProvider>
   );
