@@ -64,8 +64,8 @@ export default function SignInPage() {
   return (
     <div className="col-12 bg-dark-green vh-100">
       <div className="row row-cols-2 vh-100">
-        <div className="col-12 col-lg-6 d-flex align-items-center justify-content-center">
-          <div className="col-6">
+        <div className="col-12 col-lg-6 order-2 order-lg-1 d-flex align-items-center justify-content-center">
+          <div className="col-12 col-md-6 col-lg-6 p-3">
             <h2 className={`text-white mb-5 ${inter.className}`}>Sign in</h2>
             <Form.Control
               type="text"
@@ -83,7 +83,7 @@ export default function SignInPage() {
           </div>
         </div>
 
-        <div className="col-12 col-lg-6 bg-green d-flex align-items-center justify-content-center">
+        <div className="col-12 col-lg-6 order-1 order-lg-2 bg-green d-flex align-items-center justify-content-center logo-container">
           <div>
             <Image
               src="/images/board-logo.png"
