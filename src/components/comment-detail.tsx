@@ -8,15 +8,13 @@ interface Props {
 const CommentDetailComponent: React.FC<Props> = ({ comment }) => {
   return (
     <div className="row">
-      <div className="col-auto">
+      <div className="col-auto px-1">
         <Avatar name={comment.commentBy} size="30" round={true} />
       </div>
-      <div className="col">
-        <div className="mb-3">
+      <div className="col ps-2">
+        <div className="mt-1 mb-2">
           <span className="me-2 fw-bold text-color">{comment.commentBy}</span>
-          <span className="text-dark-grey">
-            {comment.createDate.toUTCString()}
-          </span>
+          <span className="text-dark-grey"></span>
         </div>
         <p>{comment.comment}</p>
       </div>
