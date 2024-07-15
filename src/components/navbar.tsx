@@ -1,6 +1,6 @@
 import { Button, Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { Castoro, IBM_Plex_Sans_Thai, Inter } from "next/font/google";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useRootState } from "@/utils/context/RootStateContext";
@@ -10,6 +10,8 @@ import {
   faEdit,
   faHome,
 } from "@fortawesome/free-solid-svg-icons";
+import { getItem } from "@/utils/localStorage";
+import { useAuth } from "@/utils/context/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +30,7 @@ const IBMPlexSans = IBM_Plex_Sans_Thai({
 
 export default function NavbarComponent() {
   const [isShowCanvas, setIsShowCanvas] = useState(false);
-  const { state } = useRootState();
+  const { user } = useAuth();
   const router = useRouter();
 
   const SignInButton: React.FC = () => {
@@ -53,7 +55,10 @@ export default function NavbarComponent() {
           <FontAwesomeIcon className="me-2" icon={faHome} />
           <span>Home</span>
         </Nav.Link>
-        <Nav.Link href="/our-blog" className="text-white">
+        <Nav.Link
+          href="/our-blog"
+          className={`text-white ${!user ? "d-none" : ""}`}
+        >
           <FontAwesomeIcon className="me-2" icon={faEdit} />
           <span>Our Blog</span>
         </Nav.Link>
@@ -62,10 +67,10 @@ export default function NavbarComponent() {
   };
 
   const UserInfoSection: React.FC = () => {
-    return state.user?.username ? (
+    return user ? (
       <div className={`flex justify-items-end ${inter.className}`}>
-        <span className="me-2 text-white">{state.user.username}</span>
-        <Avatar name={state.user.username} size="30" round={true} />
+        <span className="me-2 text-white">{user}</span>
+        <Avatar name={user} size="30" round={true} />
       </div>
     ) : (
       <SignInButton />
@@ -100,7 +105,7 @@ export default function NavbarComponent() {
             />
           </Offcanvas.Header>
           <Offcanvas.Body>
-            {state.user.username ? <NavMenu /> : <SignInButton />}
+            {user ? <NavMenu /> : <SignInButton />}
           </Offcanvas.Body>
         </Navbar.Offcanvas>
 

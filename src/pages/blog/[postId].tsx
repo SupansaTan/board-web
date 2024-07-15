@@ -6,6 +6,7 @@ import { IAddCommentRequest } from "@/models/comment.model";
 import { IPostInfo } from "@/models/post.model";
 import { IResponse } from "@/models/response.model";
 import { getAccessToken } from "@/utils/auth/accessTokenHelper";
+import { useAuth } from "@/utils/context/AuthContext";
 import { useLoading } from "@/utils/context/LoadingContext";
 import { useRootState } from "@/utils/context/RootStateContext";
 import { ToastState } from "@/utils/reducer/toastReducer";
@@ -25,6 +26,7 @@ export default function BlogDetailPage() {
 
   const { setLoading } = useLoading();
   const { dispatch } = useRootState();
+  const { user } = useAuth();
 
   const fetchPostInfo = async (postId: string) => {
     setLoading(true);
@@ -107,9 +109,14 @@ export default function BlogDetailPage() {
     };
 
     return (
-      <Button className="btn-cancel mx-2" onClick={handleShowComponentSection}>
-        Add Comments
-      </Button>
+      user && (
+        <Button
+          className="btn-cancel mx-2"
+          onClick={handleShowComponentSection}
+        >
+          Add Comments
+        </Button>
+      )
     );
   };
 

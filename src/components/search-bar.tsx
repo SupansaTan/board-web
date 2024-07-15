@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useRootState } from "@/utils/context/RootStateContext";
@@ -15,6 +9,7 @@ import { Button, Form } from "react-bootstrap";
 import { useRouter } from "next/router";
 import { getAccessToken } from "@/utils/auth/accessTokenHelper";
 import { IResponse } from "@/models/response.model";
+import { useAuth } from "@/utils/context/AuthContext";
 
 interface SearchBarComponentProps {
   handleShowPostModal: () => void;
@@ -26,6 +21,7 @@ const SearchBarComponent: React.FC<SearchBarComponentProps> = ({
   const [title, setTitle] = useState<string>("");
   const [community, setCommunity] = useState<Community | number>(0);
   const { state, dispatch } = useRootState();
+  const { user } = useAuth();
   const router = useRouter();
 
   const handleChangeCommunity = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -48,24 +44,22 @@ const SearchBarComponent: React.FC<SearchBarComponentProps> = ({
       isOnlyUserPost
     );
 
-    if (state.post.isNeedToFetch) {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/post/postList`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: accessToken,
-          },
-          body: JSON.stringify(request),
-        }
-      );
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/post/postList`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: accessToken,
+        },
+        body: JSON.stringify(request),
+      }
+    );
 
-      const result: IResponse<IPostInfo[]> = await response.json();
-      dispatch({ type: "post/setPost", postList: result.data });
-      dispatch({ type: "post/setNeedToFetch", isNeedToFetch: false });
-    }
-  }, [state.post.isNeedToFetch]);
+    const result: IResponse<IPostInfo[]> = await response.json();
+    dispatch({ type: "post/setPost", postList: result.data });
+    dispatch({ type: "post/setNeedToFetch", isNeedToFetch: false });
+  }, [state.post.isNeedToFetch, router.pathname]);
 
   useEffect(() => {
     fetchPost();
@@ -101,15 +95,17 @@ const SearchBarComponent: React.FC<SearchBarComponentProps> = ({
           />
         </div>
 
-        <div className="col-auto ps-0">
-          <Button
-            className="btn-success text-white px-3"
-            onClick={handleShowPostModal}
-          >
-            <span className="me-1">Create</span>
-            <FontAwesomeIcon icon={faPlus} color="white" fontSize={"12px"} />
-          </Button>
-        </div>
+        {user && (
+          <div className="col-auto ps-0">
+            <Button
+              className="btn-success text-white px-3"
+              onClick={handleShowPostModal}
+            >
+              <span className="me-1">Create</span>
+              <FontAwesomeIcon icon={faPlus} color="white" fontSize={"12px"} />
+            </Button>
+          </div>
+        )}
       </div>
     </>
   );

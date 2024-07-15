@@ -1,6 +1,9 @@
 import { ITokenResponse } from "@/models/auth.model";
 import { IResponse } from "@/models/response.model";
+import { setAccessToken } from "@/utils/auth/accessTokenHelper";
+import { useAuth } from "@/utils/context/AuthContext";
 import { useRootState } from "@/utils/context/RootStateContext";
+import { setItem } from "@/utils/localStorage";
 import { ToastState } from "@/utils/reducer/toastReducer";
 import { Castoro, IBM_Plex_Sans_Thai, Inter } from "next/font/google";
 import Image from "next/image";
@@ -27,6 +30,7 @@ export default function SignInPage() {
   const [username, setUsername] = useState("");
   const { dispatch } = useRootState();
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleSignIn = async () => {
     const response = await fetch(
@@ -43,8 +47,11 @@ export default function SignInPage() {
     let toastInfo: ToastState;
     const result: IResponse<ITokenResponse> = await response.json();
     if (result.statusCode === 200) {
-      dispatch({ type: "user/set", username: result.data.username });
+      setItem("username", result.data.username);
+      login(result.data.username);
+      setAccessToken(result.data.accessToken);
       router.push("/blog");
+
       toastInfo = {
         showToast: true,
         variant: "success",

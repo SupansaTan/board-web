@@ -3,12 +3,14 @@ import { Inter } from "next/font/google";
 import { faEdit, faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
+import { useAuth } from "@/utils/context/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
 });
 
 export default function MenuTabComponent() {
+  const { user } = useAuth();
   const router = useRouter();
 
   return (
@@ -21,7 +23,10 @@ export default function MenuTabComponent() {
         <FontAwesomeIcon className="me-2" icon={faHome} />
         <span>Home</span>
       </Nav.Link>
-      <Nav.Link href="/our-blog" className="text-dark-green">
+      <Nav.Link
+        href="/our-blog"
+        className={`text-dark-green ${!user ? "d-none" : ""}`}
+      >
         <FontAwesomeIcon className="me-2" icon={faEdit} />
         <span>Our Blog</span>
       </Nav.Link>
