@@ -23,7 +23,7 @@ export default function BlogDetailPage() {
   const [isShowCommentInput, setShowCommentInput] = useState<boolean>(false);
 
   const { setLoading } = useLoading();
-  const { state, dispatch } = useRootState();
+  const { dispatch } = useRootState();
 
   const fetchPostInfo = async (postId: string) => {
     setLoading(true);
@@ -49,6 +49,7 @@ export default function BlogDetailPage() {
         message: `Faild to fetch comment`,
       };
       dispatch({ type: "toast/set", payload: toastInfo });
+      dispatch({ type: "post/setNeedToFetch", isNeedToFetch: false });
     }
   };
 
@@ -70,7 +71,7 @@ export default function BlogDetailPage() {
     let toastInfo: ToastState;
     const result = await response.json();
     if (result.statusCode === 200) {
-      dispatch({ type: "post/setNeedToFetch", isNeedToFetch: true });
+      fetchPostInfo(postId);
       setShowCommentInput(false);
       toastInfo = {
         showToast: true,
@@ -85,6 +86,7 @@ export default function BlogDetailPage() {
       };
     }
 
+    dispatch({ type: "post/setNeedToFetch", isNeedToFetch: true });
     dispatch({ type: "toast/set", payload: toastInfo });
   };
 
@@ -93,12 +95,6 @@ export default function BlogDetailPage() {
       fetchPostInfo(postId);
     }
   }, [postId]);
-
-  useEffect(() => {
-    if (postId) {
-      fetchPostInfo(postId);
-    }
-  }, [state.post.isNeedToFetch]);
 
   const AddCommentButton: React.FC = () => {
     const handleShowComponentSection = () => {
@@ -163,7 +159,10 @@ export default function BlogDetailPage() {
       <CommentFormModal
         show={showAddCommentModal}
         postId={postId}
-        handleClose={() => setShowAddCommentModal(false)}
+        handleClose={() => {
+          setShowAddCommentModal(false);
+          fetchPostInfo(postId);
+        }}
       />
     </div>
   );
