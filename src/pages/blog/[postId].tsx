@@ -1,3 +1,4 @@
+import CommentFormModal from "@/components/comment-form-modal";
 import CommentListComponent from "@/components/comment-list";
 import PostDetailComponent from "@/components/post-detail";
 import BackToPreviousPageButton from "@/components/previous-page-btn";
@@ -10,12 +11,15 @@ import { ToastState } from "@/utils/reducer/toastReducer";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { isMobile, isTablet } from "react-device-detect";
 
 export default function BlogDetailPage() {
   const router = useRouter();
   const postId = router.query.postId?.toString() ?? "";
 
   const [postInfo, setPostInfo] = useState<IPostInfo>();
+  const [showAddCommentModal, setShowAddCommentModal] =
+    useState<boolean>(false);
   const [isShowCommentInput, setShowCommentInput] = useState<boolean>(false);
 
   const { setLoading } = useLoading();
@@ -57,7 +61,7 @@ export default function BlogDetailPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authentication: `${accessToken}`,
+          Authorization: `${accessToken}`,
         },
         body: JSON.stringify(request),
       }
@@ -90,11 +94,16 @@ export default function BlogDetailPage() {
   }, [postId]);
 
   const AddCommentButton: React.FC = () => {
+    const handleShowComponentSection = () => {
+      if (isMobile || isTablet) {
+        setShowAddCommentModal(true);
+      } else {
+        setShowCommentInput(true);
+      }
+    };
+
     return (
-      <Button
-        className="btn-cancel mx-2"
-        onClick={() => setShowCommentInput(true)}
-      >
+      <Button className="btn-cancel mx-2" onClick={handleShowComponentSection}>
         Add Comments
       </Button>
     );
@@ -142,6 +151,13 @@ export default function BlogDetailPage() {
         {isShowCommentInput && <CommentInputSection />}
         <CommentListComponent comments={postInfo?.comments ?? []} />
       </div>
+
+      {/* modal */}
+      <CommentFormModal
+        show={showAddCommentModal}
+        postId={postId}
+        handleClose={() => setShowAddCommentModal(false)}
+      />
     </div>
   );
 }
