@@ -39,12 +39,17 @@ interface ConfirmDeleteModalProps {
 }
 
 const PostDetailComponent: React.FC<Props> = ({ post }) => {
-  const [postForm, setPostForm] = useState<PostFormModalProps>({ show: false });
+  const [postForm, setPostForm] = useState<PostFormModalProps>({
+    show: false,
+    postInfo: post,
+  });
+
   const [confirmDeleteModal, setConfirmDeleteModal] =
     useState<ConfirmDeleteModalProps>({ show: false, postId: "" });
   const router = useRouter();
-  const cannotEditPostPage = ["/blog"];
-  const isShowModifyButton = !cannotEditPostPage.includes(router.pathname);
+  const ourBlogPath = ["/our-blog"];
+  const isShowModifyButton = ourBlogPath.includes(router.pathname);
+  const isPostDetailPage = router.pathname === "/blog/[postId]";
 
   const handleShowEditModal = (postInfo: IPostInfo) => {
     setPostForm({ show: true, postInfo: postInfo });
@@ -81,7 +86,11 @@ const PostDetailComponent: React.FC<Props> = ({ post }) => {
   };
 
   return (
-    <div className="post-detail-card col bg-white p-3">
+    <div
+      className={`post-detail-card col bg-white p-3 ${
+        isPostDetailPage ? "border-0" : ""
+      }`}
+    >
       <div className="col-12 text-dark-grey mt-1 mb-2 d-flex justify-content-between">
         <div>
           <Avatar name={post.createBy} size="30" round={true} />
@@ -100,23 +109,20 @@ const PostDetailComponent: React.FC<Props> = ({ post }) => {
       </div>
 
       <div
-        className="col-12 cursor-pointer"
+        className={`col-12 cursor-pointer ${inter.className}`}
         onClick={() => routeToPostDetail(post.postId)}
       >
         <TextTruncate
-          line={2}
+          line={isPostDetailPage ? false : 2}
           element="h5"
           truncateText="…"
-          style={{ color: "#101828" }}
-          className={`${inter.className} mb-1`}
+          containerClassName="mb-1"
           text={post.postTitle}
         />
         <TextTruncate
-          line={2}
+          line={isPostDetailPage ? false : 2}
           element="span"
           truncateText="…"
-          style={{ color: "#101828" }}
-          className={`${inter.className}`}
           text={post.content}
         />
       </div>
