@@ -6,6 +6,7 @@ import { useRootState } from "@/utils/context/RootStateContext";
 import { ToastState } from "@/utils/reducer/toastReducer";
 import { getAccessToken } from "@/utils/auth/accessTokenHelper";
 import { useLoading } from "@/utils/context/LoadingContext";
+import { IResponse } from "@/models/response.model";
 
 interface PostFormModalProps {
   show: boolean;
@@ -80,7 +81,7 @@ const PostFormModal: React.FC<PostFormModalProps> = ({
       }
     );
 
-    const result = await response.json();
+    const result: IResponse<boolean> = await response.json();
 
     let toastInfo: ToastState;
     setLoading(false);

@@ -1,4 +1,5 @@
 import { IAddCommentRequest } from "@/models/comment.model";
+import { IResponse } from "@/models/response.model";
 import { getAccessToken } from "@/utils/auth/accessTokenHelper";
 import { useRootState } from "@/utils/context/RootStateContext";
 import { ToastState } from "@/utils/reducer/toastReducer";
@@ -31,7 +32,7 @@ const CommentFormModal: React.FC<Props> = ({ show, postId, handleClose }) => {
     );
 
     let toastInfo: ToastState;
-    const result = await response.json();
+    const result: IResponse<boolean> = await response.json();
     if (result.statusCode === 200) {
       dispatch({ type: "post/setNeedToFetch", isNeedToFetch: true });
       toastInfo = {

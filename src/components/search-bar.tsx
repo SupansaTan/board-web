@@ -8,12 +8,13 @@ import React, {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useRootState } from "@/utils/context/RootStateContext";
-import { IGetPostListRequest } from "@/models/post.model";
+import { IGetPostListRequest, IPostInfo } from "@/models/post.model";
 import CommunityDropdown from "./community-dropdown";
 import { Community } from "@/enum/community.enum";
 import { Button, Form } from "react-bootstrap";
 import { useRouter } from "next/router";
 import { getAccessToken } from "@/utils/auth/accessTokenHelper";
+import { IResponse } from "@/models/response.model";
 
 interface SearchBarComponentProps {
   handleShowPostModal: () => void;
@@ -60,7 +61,7 @@ const SearchBarComponent: React.FC<SearchBarComponentProps> = ({
         }
       );
 
-      const result = await response.json();
+      const result: IResponse<IPostInfo[]> = await response.json();
       dispatch({ type: "post/setPost", postList: result.data });
       dispatch({ type: "post/setNeedToFetch", isNeedToFetch: false });
     }

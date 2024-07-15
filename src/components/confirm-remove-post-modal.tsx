@@ -1,3 +1,4 @@
+import { IResponse } from "@/models/response.model";
 import { getAccessToken } from "@/utils/auth/accessTokenHelper";
 import { useRootState } from "@/utils/context/RootStateContext";
 import { ToastState } from "@/utils/reducer/toastReducer";
@@ -30,7 +31,7 @@ const ConfirmRemovePostModal: React.FC<Props> = ({
     );
 
     let toastInfo: ToastState;
-    const result = await response.json();
+    const result: IResponse<boolean> = await response.json();
     if (result.statusCode === 200) {
       dispatch({ type: "post/setNeedToFetch", isNeedToFetch: true });
       toastInfo = {

@@ -4,6 +4,7 @@ import PostDetailComponent from "@/components/post-detail";
 import BackToPreviousPageButton from "@/components/previous-page-btn";
 import { IAddCommentRequest } from "@/models/comment.model";
 import { IPostInfo } from "@/models/post.model";
+import { IResponse } from "@/models/response.model";
 import { getAccessToken } from "@/utils/auth/accessTokenHelper";
 import { useLoading } from "@/utils/context/LoadingContext";
 import { useRootState } from "@/utils/context/RootStateContext";
@@ -37,7 +38,7 @@ export default function BlogDetailPage() {
       }
     );
 
-    const result = await response.json();
+    const result: IResponse<IPostInfo> = await response.json();
     if (result.statusCode === 200) {
       setLoading(false);
       setPostInfo(result.data);
@@ -69,7 +70,7 @@ export default function BlogDetailPage() {
     );
 
     let toastInfo: ToastState;
-    const result = await response.json();
+    const result: IResponse<boolean> = await response.json();
     if (result.statusCode === 200) {
       fetchPostInfo(postId);
       setShowCommentInput(false);
