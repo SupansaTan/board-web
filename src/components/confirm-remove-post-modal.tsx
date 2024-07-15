@@ -1,3 +1,4 @@
+import { getAccessToken } from "@/utils/auth/accessTokenHelper";
 import { useRootState } from "@/utils/context/RootStateContext";
 import { ToastState } from "@/utils/reducer/toastReducer";
 import { Button, Modal } from "react-bootstrap";
@@ -16,14 +17,14 @@ const ConfirmRemovePostModal: React.FC<Props> = ({
   const { dispatch } = useRootState();
 
   const ConfirmDeletePost = async () => {
-    const token = "";
+    const accessToken = getAccessToken();
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/post/${postId}`,
       {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authentication: `${token}`,
+          Authorization: `${accessToken}`,
         },
       }
     );
@@ -31,6 +32,7 @@ const ConfirmRemovePostModal: React.FC<Props> = ({
     let toastInfo: ToastState;
     const result = await response.json();
     if (result.statusCode === 200) {
+      dispatch({ type: "post/setNeedToFetch", isNeedToFetch: true });
       toastInfo = {
         showToast: true,
         variant: "success",
@@ -45,6 +47,7 @@ const ConfirmRemovePostModal: React.FC<Props> = ({
     }
 
     dispatch({ type: "toast/set", payload: toastInfo });
+    handleClose();
   };
 
   return (

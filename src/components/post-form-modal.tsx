@@ -4,6 +4,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { IModifyPostRequest, IPostInfo } from "@/models/post.model";
 import { useRootState } from "@/utils/context/RootStateContext";
 import { ToastState } from "@/utils/reducer/toastReducer";
+import { getAccessToken } from "@/utils/auth/accessTokenHelper";
+import { useLoading } from "@/utils/context/LoadingContext";
 
 interface PostFormModalProps {
   show: boolean;
@@ -19,6 +21,7 @@ const PostFormModal: React.FC<PostFormModalProps> = ({
   const action = postInfo ? "Edit" : "Create";
   const buttonConfirmLabel = postInfo ? "Confirm" : "Post";
   const { dispatch } = useRootState();
+  const { setLoading } = useLoading();
   const [postForm, setPostForm] = useState<IModifyPostRequest>(
     new IModifyPostRequest("", "", 0)
   );
@@ -59,24 +62,30 @@ const PostFormModal: React.FC<PostFormModalProps> = ({
   };
 
   const ConfirmModifyForm = async () => {
-    const token = "";
+    setLoading(true);
+    const accessToken = getAccessToken();
     const method = postInfo ? "PUT" : "POST";
+    const apiUrl = postInfo ? `post/${postInfo.postId}` : "post";
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/post`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/${apiUrl}`,
       {
         method: method,
         headers: {
           "Content-Type": "application/json",
-          Authentication: `${token}`,
+          Authorization: `${accessToken}`,
         },
         body: JSON.stringify(postForm),
       }
     );
 
-    let toastInfo: ToastState;
     const result = await response.json();
+
+    let toastInfo: ToastState;
+    setLoading(false);
     const action = postInfo ? "modify" : "add";
     if (result.statusCode === 200) {
+      dispatch({ type: "post/setNeedToFetch", isNeedToFetch: true });
+      handleClose();
       toastInfo = {
         showToast: true,
         variant: "success",

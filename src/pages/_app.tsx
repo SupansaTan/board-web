@@ -10,6 +10,8 @@ import ToastComponent from "@/components/toast";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { RootStateProvider } from "@/utils/context/RootStateContext";
+import { LoadingProvider } from "@/utils/context/LoadingContext";
+import { useEffect } from "react";
 config.autoAddCss = false;
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -21,15 +23,19 @@ export default function App({ Component, pageProps }: AppProps) {
     <SSRProvider>
       {isLayoutNeeded ? (
         <RootStateProvider>
-          <MainLayout>
-            <Component {...pageProps} />
-            <ToastComponent />
-          </MainLayout>
+          <LoadingProvider>
+            <MainLayout>
+              <Component {...pageProps} />
+              <ToastComponent />
+            </MainLayout>
+          </LoadingProvider>
         </RootStateProvider>
       ) : (
         <RootStateProvider>
-          <Component {...pageProps} />
-          <ToastComponent />
+          <LoadingProvider>
+            <Component {...pageProps} />
+            <ToastComponent />
+          </LoadingProvider>
         </RootStateProvider>
       )}
     </SSRProvider>

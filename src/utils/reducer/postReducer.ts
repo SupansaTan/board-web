@@ -2,19 +2,24 @@ import { IPostInfo } from "@/models/post.model";
 
 export type PostState = {
   postList: IPostInfo[];
+  isNeedToFetch: boolean;
 };
 
 export type PostAction =
-  | { type: 'post/set'; postList: IPostInfo[] };
+  | { type: 'post/setPost'; postList: IPostInfo[] }
+  | { type: 'post/setNeedToFetch'; isNeedToFetch: boolean }
 
 export const PostInitialState: PostState = {
-  postList: []
+  postList: [],
+  isNeedToFetch: true
 };
 
 export const postReducer = (state: PostState, action: PostAction): PostState => {
   switch (action.type) {
-    case 'post/set':
-      return { postList: action.postList };
+    case 'post/setPost':
+      return { ...state, postList: action.postList };
+    case 'post/setNeedToFetch':
+      return { ...state, isNeedToFetch: action.isNeedToFetch };
     default:
       return state;
   }
