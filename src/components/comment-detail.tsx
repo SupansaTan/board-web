@@ -1,4 +1,5 @@
 import { IComment } from "@/models/comment.model";
+import { formatTime } from "@/utils/formatTime";
 import Avatar from "react-avatar";
 
 interface Props {
@@ -14,7 +15,9 @@ const CommentDetailComponent: React.FC<Props> = ({ comment }) => {
       <div className="col ps-2">
         <div className="mt-1 mb-2">
           <span className="me-2 fw-bold text-color">{comment.commentBy}</span>
-          <span className="text-dark-grey"></span>
+          <span className="text-dark-grey">
+            {formatTime(comment.createDate)}
+          </span>
         </div>
         <p>{comment.comment}</p>
       </div>

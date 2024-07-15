@@ -14,6 +14,7 @@ import ConfirmRemovePostModal from "./confirm-remove-post-modal";
 import PostFormModal from "./post-form-modal";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { formatTime } from "@/utils/formatTime";
 
 const IBMPlexSans = IBM_Plex_Sans_Thai({
   subsets: ["latin"],
@@ -95,6 +96,13 @@ const PostDetailComponent: React.FC<Props> = ({ post }) => {
         <div>
           <Avatar name={post.createBy} size="30" round={true} />
           <span className="ms-2">{post.createBy}</span>
+          {isPostDetailPage ? (
+            <span className="ms-3 text-dark-grey">
+              {formatTime(post.createDate)}
+            </span>
+          ) : (
+            <></>
+          )}
         </div>
         {isShowModifyButton && <ModifyButton />}
       </div>
