@@ -1,0 +1,13 @@
+.post-detail-card {
+  border-bottom: 1px solid $lightGreyColor;
+
+  &:first-child {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+}

@@ -1,0 +1,52 @@
+// background
+.bg- {
+  &dark-green {
+    background-color: $darkGreenColor !important;
+  }
+
+  &green {
+    background-color: $greenColor;
+  }
+
+  &light-green {
+    background-color: $lightGreenColor;
+  }
+
+  &golden {
+    background-color: $goldenColor;
+  }
+
+  &light-grey {
+    background-color: $lightGreyColor;
+  }
+
+  &dark-grey {
+    background-color: $darkGreyColor;
+  }
+}
+
+body {
+  background-color: $lightGreyColor;
+}
+
+// border
+.border- {
+  &light-green {
+    border-color: $lightGreenColor;
+  }
+}
+
+// text
+.text- {
+  &dark-green {
+    color: $darkGreenColor !important;
+  }
+
+  &dark-grey {
+    color: $darkGreyColor;
+  }
+
+  &green {
+    color: $greenColor;
+  }
+}

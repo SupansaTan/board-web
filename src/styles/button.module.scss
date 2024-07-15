@@ -1,0 +1,30 @@
+.btn-success {
+  border-color: $successColor;
+  background-color: $successColor;
+}
+
+.btn-cancel {
+  color: $successColor;
+  border-color: $successColor;
+  background-color: white;
+
+  &:hover,
+  &:focus {
+    color: $successColor;
+    border-color: $successColor;
+    background-color: white;
+  }
+}
+
+.btn-grey-cancel {
+  color: #5b5b5b;
+  border-color: #dadada;
+  background-color: white;
+
+  &:hover,
+  &:focus {
+    color: #5b5b5b;
+    border-color: #dadada;
+    background-color: white;
+  }
+}

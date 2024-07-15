@@ -1,0 +1,7 @@
+.nav-link {
+  color: $darkGreenColor;
+
+  &.active {
+    font-weight: 700;
+  }
+}

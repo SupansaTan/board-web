@@ -1,0 +1,11 @@
+.search-input {
+  border-color: $lightGreenColor;
+  background-color: $lightGreyColor;
+
+  &:hover,
+  &:focus {
+    color: $textColor;
+    border-color: $lightGreenColor;
+    background-color: $lightGreyColor;
+  }
+}
