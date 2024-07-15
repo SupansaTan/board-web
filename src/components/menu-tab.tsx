@@ -15,7 +15,7 @@ export default function MenuTabComponent() {
     <Nav
       defaultActiveKey="/blog"
       activeKey={router.pathname}
-      className={`flex-column ${inter.className} px-2`}
+      className={`flex-column ${inter.className} px-2 pt-3`}
     >
       <Nav.Link href="/blog" className="text-dark-green">
         <FontAwesomeIcon className="me-2" icon={faHome} />

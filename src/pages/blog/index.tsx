@@ -9,10 +9,15 @@ export default function BlogPage() {
   const handleShowModal = () => setShowPostFormModal(true);
 
   return (
-    <>
-      <SearchBarComponent handleShowPostModal={handleShowModal} />
-      <PostFormModal show={showPostFormModal} handleClose={handleCloseModal} />
-      <PostListComponent />
-    </>
+    <div className="col-12 bg-light-grey h-100">
+      <div className="container">
+        <SearchBarComponent handleShowPostModal={handleShowModal} />
+        <PostFormModal
+          show={showPostFormModal}
+          handleClose={handleCloseModal}
+        />
+        <PostListComponent />
+      </div>
+    </div>
   );
 }

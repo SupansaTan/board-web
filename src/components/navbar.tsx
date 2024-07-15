@@ -9,7 +9,7 @@ const castoro = Castoro({
 
 export default function NavbarComponent() {
   return (
-    <Navbar expand={"md"} variant="dark" bg="dark-green" className="mb-3">
+    <Navbar expand={"md"} sticky="top" variant="dark" bg="dark-green">
       <Container fluid>
         <Navbar.Brand href="#" className={castoro.className}>
           a Board

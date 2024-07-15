@@ -8,17 +8,17 @@ interface LayoutProps {
 
 const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <React.Fragment>
+    <div className="h-100">
       <NavbarComponent></NavbarComponent>
 
-      <div className="row row-cols-2">
-        <div className="col-3">
+      <div className="row row-cols-2 vh-100">
+        <div className="col-2 h-100 bg-light-grey">
           <MenuTabComponent></MenuTabComponent>
         </div>
 
-        <div className="col">{children}</div>
+        <div className="col-10 h-100 p-0">{children}</div>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
