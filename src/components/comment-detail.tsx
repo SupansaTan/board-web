@@ -9,11 +9,11 @@ const CommentDetailComponent: React.FC<Props> = ({ comment }) => {
   return (
     <div className="row">
       <div className="col-auto">
-        <Avatar name={comment.postBy} size="30" round={true} />
+        <Avatar name={comment.commentBy} size="30" round={true} />
       </div>
       <div className="col">
         <div className="mb-3">
-          <span className="me-2 fw-bold text-color">{comment.postBy}</span>
+          <span className="me-2 fw-bold text-color">{comment.commentBy}</span>
           <span className="text-dark-grey">
             {comment.createDate.toUTCString()}
           </span>
